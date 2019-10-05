@@ -3,13 +3,16 @@ FLAGS = -std=c++11
 
 all: main
 
-main: main.o FileReader.o
-	g++ main.o FileReader.o -o main
+main: main.o CBruteForceSolver.o FileReader.o
+	g++ main.o FileReader.o CBruteForceSolver.o -o main
 
-main.o:
+main.o: $(SRC)main.cpp
 	g++ -c $(SRC)main.cpp $(FLAGS)
 
-FileReader.o:
+CBruteForceSolver.o: $(SRC)CBruteForceSolver.cpp
+	g++ -c $(SRC)CBruteForceSolver.cpp $(FLAGS)
+
+FileReader.o: $(SRC)FileReader.cpp
 	g++ -c $(SRC)FileReader.cpp $(FLAGS)
 
 clean:
