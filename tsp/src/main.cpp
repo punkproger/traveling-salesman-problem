@@ -1,5 +1,6 @@
 #include "FileReader.hpp" 
-#include "CBruteForceSolver.hpp"
+#include "CBruteForceSolver/CBruteForceSolver.hpp"
+#include "CBackTrackingSolver/CBackTrackingSolver.hpp"
 
 #include <iostream>
 #include <iomanip>
@@ -7,8 +8,8 @@
 
 int main(int argc, char** argv)
 {
-	TSP::Matrix matrix = TSP::FileReader::readPlateFile("test/TestFile.txt");
-	std::unique_ptr<TSP::ITSPSolver> solver{new TSP::CBruteForceSolver()};
+	TSP::Matrix matrix = TSP::FileReader::readPlateFile("test/CBruteForceSolver.txt");
+	std::unique_ptr<TSP::ITSPSolver> solver{new TSP::CBackTrackingSolver()};
 
 	auto sequence = solver->solve(matrix, 4);
 	for (auto idx : sequence)

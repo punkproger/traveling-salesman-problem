@@ -7,10 +7,13 @@ using namespace TSP;
 
 std::vector<size_t> CBruteForceSolver::solve(const Matrix& matrix, size_t root)
 {
-	std::vector<size_t> idxes(matrix.size());
+	std::vector<size_t> idxes(matrix.size()+1);
 	std::iota(idxes.begin(), idxes.end(), 0);
 	std::swap(idxes.front(), idxes[root]);
-	auto permutation_start_it = idxes.begin()+1;
+	idxes.back() = idxes.front();
+
+	auto permutation_begin_it = idxes.begin()+1;
+	auto permutation_end_it = idxes.end()-1;
 
 	size_t min_length{0xFFFFFFFF};
 	std::vector<size_t> min_sequence;
@@ -36,7 +39,7 @@ std::vector<size_t> CBruteForceSolver::solve(const Matrix& matrix, size_t root)
 			min_length = length;
 			min_sequence = idxes;
 		}
-	} while (std::next_permutation(permutation_start_it, idxes.end()));
+	} while (std::next_permutation(permutation_begin_it, permutation_end_it));
 
 	return min_sequence;
 }
