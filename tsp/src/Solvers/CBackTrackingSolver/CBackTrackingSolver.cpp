@@ -1,7 +1,6 @@
 #include "CBackTrackingSolver.hpp"
 
 #include <functional>
-#include <iostream>
 
 using namespace TSP;
 
