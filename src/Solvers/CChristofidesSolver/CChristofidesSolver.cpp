@@ -4,6 +4,8 @@
 #include <stack>
 #include <iostream>
 #include <map>
+#include <cstdlib>
+#include <ctime>
 
 using namespace TSP;
 
@@ -289,6 +291,103 @@ namespace {
     }
 }
 
+size_t calculateLength(const std::vector<size_t>& path, const Matrix& matrix)
+{
+    size_t length{0};
+
+    for (size_t i = 0; i < path.size()-1; ++i)
+    {
+        length += matrix[path[i]][path[i+1]];
+    }
+
+    return length;
+}
+
+size_t swapVerticesInPath(std::vector<size_t>& path, const Matrix& matrix, size_t a, size_t b, size_t old_cost)
+{
+    if (a > b)
+    {
+        std::swap(a, b);
+    }
+
+
+    if (a == 0)
+    {
+        old_cost -= matrix[path[b-1]][path[b]] + matrix[path[a]][path[a+1]];
+        old_cost += matrix[path[b-1]][path[a]] + matrix[path[b]][path[a+1]];
+    }
+    else
+    {
+        old_cost -= matrix[path[b-1]][path[b]] + matrix[path[a]][path[a+1]] + matrix[path[a-1]][path[a]];
+        old_cost += matrix[path[b-1]][path[a]] + matrix[path[b]][path[a+1]] + matrix[path[a-1]][path[b]];
+    }
+
+    if (b != path.size()-1)
+    {
+        old_cost -= matrix[path[b]][path[b-1]];
+        old_cost += matrix[path[a]][path[b-1]];
+    }
+
+    std::swap(path[a], path[b]);
+
+    return old_cost;
+}
+
+std::vector<size_t> twoOpt(std::vector<size_t> path, const Matrix& matrix, size_t iterations=100000, size_t rand_attemts=1)
+{
+    std::srand(unsigned(std::time(0)));
+
+    size_t it = iterations;
+    size_t best_cost{0}, cost{0};
+    for (size_t i = 0; i < path.size()-1; ++i)
+    {
+        best_cost += matrix[path[i]][path[i+1]];
+    }
+    std::vector<size_t> tmp_path;
+    bool changed{false};
+    
+    do
+    {
+        changed = false;
+        tmp_path = path;
+        cost = best_cost;
+        for (size_t i = 0; i < path.size()-2; ++i)
+        {
+            for (size_t j = i+1; path.size(); ++j)
+            {
+                if (j-1 == 1)
+                {
+                    continue;
+                }
+
+                std::reverse(tmp_path.begin()+i, tmp_path.begin()+j);
+
+                cost = calculateLength(tmp_path, matrix);
+                if (cost < best_cost)
+                {
+                    std::cout << best_cost << "->" << cost << std::endl;
+                    path = tmp_path;
+                    best_cost = cost;
+                    it = iterations;
+                    changed = true;
+                    break;
+                }
+            }
+
+            if(changed)
+            {
+                break;
+            }
+        }
+
+        //std::cout << best_cost << "->" << cost << std::endl;    
+
+
+    } while (changed);
+
+    return path;
+}
+
 std::vector<size_t> CChristofidesSolver::solve(const Matrix& matrix, size_t root)
 {
     std::vector<size_t> min_sequence;
@@ -343,5 +442,5 @@ std::vector<size_t> CChristofidesSolver::solve(const Matrix& matrix, size_t root
     min_sequence = getHamiltonPath(euler_path);
     min_sequence.push_back(root);
 
-    return min_sequence;
+    return twoOpt(min_sequence, matrix);
 }

@@ -9,8 +9,8 @@
 
 int main(int argc, char** argv)
 {
-	TSP::Matrix matrix = TSP::FileReader::readPlateFile("test/TestFile_11_lines.txt");
-	std::unique_ptr<TSP::ITSPSolver> solver{new TSP::CBackTrackingSolver()};
+	TSP::Matrix matrix = TSP::FileReader::readPlateFile("tsp_example_2.txt");//181
+	std::unique_ptr<TSP::ITSPSolver> solver{new TSP::CChristofidesSolver()};
 
 	for (const auto& row : matrix)
 	{
