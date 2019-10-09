@@ -333,12 +333,11 @@ size_t swapVerticesInPath(std::vector<size_t>& path, const Matrix& matrix, size_
     return old_cost;
 }
 
-std::vector<size_t> twoOpt(std::vector<size_t> path, const Matrix& matrix, size_t iterations=100000, size_t rand_attemts=1)
+std::vector<size_t> twoOpt(std::vector<size_t> path, const Matrix& matrix, size_t limit=100)
 {
     std::srand(unsigned(std::time(0)));
 
-    size_t it = iterations;
-    size_t best_cost{0}, cost{0};
+    size_t best_cost{0}, cost{0}, times{0};
     for (size_t i = 0; i < path.size()-1; ++i)
     {
         best_cost += matrix[path[i]][path[i+1]];
@@ -349,16 +348,17 @@ std::vector<size_t> twoOpt(std::vector<size_t> path, const Matrix& matrix, size_
     do
     {
         changed = false;
-        tmp_path = path;
         cost = best_cost;
         for (size_t i = 0; i < path.size()-2; ++i)
         {
-            for (size_t j = i+1; path.size(); ++j)
+
+            for (size_t j = i+1; j < path.size(); ++j)
             {
                 if (j-1 == 1)
                 {
                     continue;
                 }
+                tmp_path = path;
 
                 std::reverse(tmp_path.begin()+i, tmp_path.begin()+j);
 
@@ -368,7 +368,6 @@ std::vector<size_t> twoOpt(std::vector<size_t> path, const Matrix& matrix, size_
                     std::cout << best_cost << "->" << cost << std::endl;
                     path = tmp_path;
                     best_cost = cost;
-                    it = iterations;
                     changed = true;
                     break;
                 }
@@ -379,11 +378,12 @@ std::vector<size_t> twoOpt(std::vector<size_t> path, const Matrix& matrix, size_
                 break;
             }
         }
+        ++times;
 
         //std::cout << best_cost << "->" << cost << std::endl;    
 
 
-    } while (changed);
+    } while (changed && times < limit);
 
     return path;
 }
@@ -440,7 +440,6 @@ std::vector<size_t> CChristofidesSolver::solve(const Matrix& matrix, size_t root
 
     std::vector<size_t> euler_path = getEulerPath(edges, root);
     min_sequence = getHamiltonPath(euler_path);
-    min_sequence.push_back(root);
 
     return twoOpt(min_sequence, matrix);
 }

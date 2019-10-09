@@ -10,7 +10,7 @@ BACK_TRACkING_SOLVER_DIR = $(SOLVERS_DIR)CBackTrackingSolver/
 CHRISTOFIEDES_SOLVER_DIR = $(SOLVERS_DIR)CChristofidesSolver/
 
 CXX = g++
-FLAGS = -std=c++11 -g -I./$(COMMON_DIR)
+FLAGS = -std=c++11 -g  -O3 -I./$(COMMON_DIR)
 
 OBJECTS = *.o
 
