@@ -1,7 +1,6 @@
 #include "FileReader.hpp" 
-#include "CBruteForceSolver/CBruteForceSolver.hpp"
-#include "CBackTrackingSolver/CBackTrackingSolver.hpp"
 #include "CChristofidesSolver/CChristofidesSolver.hpp"
+#include "Optimization.hpp"
 
 #include <iostream>
 #include <iomanip>
@@ -9,11 +8,13 @@
 
 int main(int argc, char** argv)
 {
-	TSP::Matrix matrix = TSP::FileReader::readPlateFile("tsp_example_2.txt");//181
+	TSP::Matrix matrix = TSP::FileReader::readPlateFile("tsp_example_2.txt");
 	std::unique_ptr<TSP::ITSPSolver> solver{new TSP::CChristofidesSolver()};
 
 	size_t cost{0};
-	auto sequence = solver->solve(matrix, 4);
+	std::vector<size_t> sequence = solver->solve(matrix, 4);
+	sequence = TSP::Optimization::twoOpt(sequence, matrix, 1000);
+
 	for (size_t i = 0; i < sequence.size(); ++i)
 	{
 		if (i != sequence.size()-1)

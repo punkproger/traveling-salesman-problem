@@ -10,20 +10,23 @@ BACK_TRACkING_SOLVER_DIR = $(SOLVERS_DIR)CBackTrackingSolver/
 CHRISTOFIEDES_SOLVER_DIR = $(SOLVERS_DIR)CChristofidesSolver/
 
 CXX = g++
-FLAGS = -std=c++11 -g  -O3 -I./$(COMMON_DIR)
+FLAGS = -std=c++11 -g  -O3 -I./$(SRC)
 
 OBJECTS = *.o
 
 all: main
 
-main: main.o FileReader.o CBruteForceSolver.o CBackTrackingSolver.o CChristofidesSolver.o
-	$(CXX) main.o FileReader.o CBruteForceSolver.o CBackTrackingSolver.o CChristofidesSolver.o -o main
+main: main.o FileReader.o Optimization.o CBruteForceSolver.o CBackTrackingSolver.o CChristofidesSolver.o
+	$(CXX) main.o FileReader.o Optimization.o CBruteForceSolver.o CBackTrackingSolver.o CChristofidesSolver.o -o main
 
 main.o: $(SRC)main.cpp
 	$(CXX) -c $(SRC)main.cpp $(FLAGS) -I./$(SOLVERS_DIR) $(SOLVERS_FLAGS)
 
 FileReader.o: $(SRC)FileReader.cpp
 	$(CXX) -c $(SRC)FileReader.cpp $(FLAGS)
+
+Optimization.o: $(SRC)Optimization.cpp
+	$(CXX) -c $(SRC)Optimization.cpp $(FLAGS)
 
 CBruteForceSolver.o: $(BRUTE_FORCE_SOLVER_DIR)CBruteForceSolver.cpp
 	$(CXX) -c $(BRUTE_FORCE_SOLVER_DIR)CBruteForceSolver.cpp $(FLAGS) $(SOLVERS_FLAGS)
