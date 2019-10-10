@@ -17,6 +17,7 @@ namespace {
 
         return length;
     }
+
 }
 
 std::vector<size_t> Optimization::twoOpt(std::vector<size_t> path, const Matrix& matrix, size_t iterations)
@@ -34,21 +35,24 @@ std::vector<size_t> Optimization::twoOpt(std::vector<size_t> path, const Matrix&
         changed = false;
         cost = best_cost;
         for (size_t i = 0; i < path.size()-2; ++i)
-        {
+        {   
             for (size_t j = i+1; j < path.size(); ++j)
             {
-                if (j-1 == 1)
+                if (j == 2)
                 {
                     continue;
                 }
                 tmp_path = path;
 
                 std::reverse(tmp_path.begin()+i, tmp_path.begin()+j);
-
+                // TODO: Can be optimized
+                // a, b, c, d, e
+                // reverse (b..d)
+                // cost += (length[a, d] + length[b, e]) - (length[a, b] + length[d, e])
                 cost = calculateLength(tmp_path, matrix);
+                
                 if (cost < best_cost)
                 {
-                    std::cout << best_cost << "->" << cost << std::endl;
                     path = tmp_path;
                     best_cost = cost;
                     changed = true;
