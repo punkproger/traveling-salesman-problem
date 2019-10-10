@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Types.hpp"
+#include "Common/Types.hpp"
 
 namespace TSP {
 	class ITSPSolver

@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream> 
 #include <cmath> 
+#include <exception>
 
 using namespace TSP;
 
@@ -58,6 +59,10 @@ namespace {
 Matrix FileReader::readPlateFile(const std::string& filename)
 {
 	std::ifstream file(filename);
+	if(file.fail()){
+        throw std::invalid_argument("Filed to open file");
+    }
+
 	std::string tmp;
 
 	std::vector<Point> points;

@@ -1,18 +1,17 @@
 #include "CBruteForceSolver.hpp"
 
 #include <algorithm>
+#include <numeric>
 
 using namespace TSP;
 
 std::vector<size_t> CBruteForceSolver::solve(const Matrix& matrix, size_t root)
 {
-	std::vector<size_t> idxes(matrix.size()+1);
+	std::vector<size_t> idxes(matrix.size());
 	std::iota(idxes.begin(), idxes.end(), 0);
-	std::swap(idxes.front(), idxes[root]);
-	idxes.back() = idxes.front();
 
-	auto permutation_begin_it = idxes.begin()+1;
-	auto permutation_end_it = idxes.end()-1;
+	auto permutation_begin_it = idxes.begin();
+	auto permutation_end_it = idxes.end();
 
 	size_t min_length{0xFFFFFFFF};
 	std::vector<size_t> min_sequence;

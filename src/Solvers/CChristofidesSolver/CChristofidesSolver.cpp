@@ -4,6 +4,7 @@
 #include <stack>
 #include <iostream>
 #include <map>
+#include <numeric>
 
 using namespace TSP;
 
@@ -40,19 +41,6 @@ namespace {
             result_matrix[edge.to][edge.from] = edge.distance;
         }
 
-        //LOG
-        std::cout << __FUNCTION__ << std::endl;
-        for (int i = 0; i < result_matrix.size(); ++i)
-        {
-            std::cout << i << ". ";
-            for (int j = 0; j < result_matrix[i].size(); ++j)
-            {
-                std::cout << result_matrix[i][j] << " ";
-            }
-            std::cout << std::endl;
-        }
-        std::cout << std::endl;
-
         return result_matrix;
     }
 
@@ -79,19 +67,6 @@ namespace {
             odd_vertices.erase(odd_vertices.begin());
         }
 
-        //LOG
-        std::cout << __FUNCTION__ << std::endl;
-        for (int i = 0; i < minimum_weighted_matching.size(); ++i)
-        {
-            std::cout << i << ". ";
-            for (int j = 0; j < minimum_weighted_matching[i].size(); ++j)
-            {
-                std::cout << minimum_weighted_matching[i][j] << " ";
-            }
-            std::cout << std::endl;
-        }
-        std::cout << std::endl;
-
         return minimum_weighted_matching;
     }
 
@@ -110,16 +85,6 @@ namespace {
             }
         }
 
-        //LOG
-        std::cout << __FUNCTION__ << std::endl;
-        for (int i = 0; i < edges.size(); ++i)
-        {
-            std::cout << i << ". ";
-            std::cout << edges[i].from << "->" << edges[i].to << " : " << edges[i].distance;
-            std::cout << std::endl;
-        }
-        std::cout << std::endl;
-
         return edges;
     }
 
@@ -135,19 +100,6 @@ namespace {
         {
             ++result[edge.from][edge.to];
         }
-
-        //LOG   
-        std::cout << __FUNCTION__ << std::endl;
-        for (int i = 0; i < result.size(); ++i)
-        {
-            std::cout << i << ". ";
-            for (int j = 0; j < result[i].size(); ++j)
-            {
-                std::cout << result[i][j] << " ";
-            }
-            std::cout << std::endl;
-        }
-        std::cout << std::endl;
 
         return result;
     }
@@ -186,16 +138,6 @@ namespace {
             }
         }
 
-        //LOG
-        std::cout << __FUNCTION__ << std::endl;
-        for (int i = 0; i < path.size(); ++i)
-        {
-            std::cout << i << ". ";
-            std::cout << path[i];
-            std::cout << std::endl;
-        }
-        std::cout << std::endl;
-
         return path;
     }
 
@@ -227,16 +169,6 @@ namespace {
                 next = euler_path.erase(next);
             }
         }
-
-        //LOG
-        std::cout << __FUNCTION__ << std::endl;
-        for (int i = 0; i < euler_path.size(); ++i)
-        {
-            std::cout << i << ". ";
-            std::cout << euler_path[i];
-            std::cout << std::endl;
-        }
-        std::cout << std::endl;
 
         return euler_path;
     }
@@ -274,19 +206,39 @@ namespace {
                 }
             }
 
-            //LOG
-            std::cout << __FUNCTION__ << std::endl;
-            for (int i = 0; i < min_edges.size(); ++i)
-            {
-                std::cout << i << ". ";
-                std::cout << min_edges[i].from << "->" << min_edges[i].to << " : " << min_edges[i].distance;
-                std::cout << std::endl;
-            }
-            std::cout << std::endl;
-
             return createCompleteGraph(min_edges);
         }
     }
+}
+
+size_t swapVerticesInPath(std::vector<size_t>& path, const Matrix& matrix, size_t a, size_t b, size_t old_cost)
+{
+    if (a > b)
+    {
+        std::swap(a, b);
+    }
+
+
+    if (a == 0)
+    {
+        old_cost -= matrix[path[b-1]][path[b]] + matrix[path[a]][path[a+1]];
+        old_cost += matrix[path[b-1]][path[a]] + matrix[path[b]][path[a+1]];
+    }
+    else
+    {
+        old_cost -= matrix[path[b-1]][path[b]] + matrix[path[a]][path[a+1]] + matrix[path[a-1]][path[a]];
+        old_cost += matrix[path[b-1]][path[a]] + matrix[path[b]][path[a+1]] + matrix[path[a-1]][path[b]];
+    }
+
+    if (b != path.size()-1)
+    {
+        old_cost -= matrix[path[b]][path[b-1]];
+        old_cost += matrix[path[a]][path[b-1]];
+    }
+
+    std::swap(path[a], path[b]);
+
+    return old_cost;
 }
 
 std::vector<size_t> CChristofidesSolver::solve(const Matrix& matrix, size_t root)
@@ -328,20 +280,10 @@ std::vector<size_t> CChristofidesSolver::solve(const Matrix& matrix, size_t root
                 edges.push_back(e2);
             }
         }
-    }
-    //LOG
-    std::cout << __FUNCTION__ << std::endl;
-    for (int i = 0; i < edges.size(); ++i)
-    {
-        std::cout << i << ". ";
-        std::cout << edges[i].from << "->" << edges[i].to << " : " << edges[i].distance;
-        std::cout << std::endl;
-    }
-    std::cout << std::endl;
+    }   
 
     std::vector<size_t> euler_path = getEulerPath(edges, root);
     min_sequence = getHamiltonPath(euler_path);
-    min_sequence.push_back(root);
 
     return min_sequence;
 }
