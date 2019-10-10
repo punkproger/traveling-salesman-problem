@@ -1,6 +1,7 @@
 #include "CBruteForceSolver.hpp"
 
 #include <algorithm>
+#include <numeric>
 
 using namespace TSP;
 

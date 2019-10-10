@@ -12,16 +12,6 @@ int main(int argc, char** argv)
 	TSP::Matrix matrix = TSP::FileReader::readPlateFile("tsp_example_2.txt");//181
 	std::unique_ptr<TSP::ITSPSolver> solver{new TSP::CChristofidesSolver()};
 
-	for (const auto& row : matrix)
-	{
-		for (auto val : row)
-		{
-			std::cout << std::setw(8) << val << " ";
-		}
-		std::cout << std::endl;
-	}
-	std::cout << std::endl;
-
 	size_t cost{0};
 	auto sequence = solver->solve(matrix, 4);
 	for (size_t i = 0; i < sequence.size(); ++i)
