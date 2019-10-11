@@ -110,7 +110,7 @@ namespace {
         auto vertices_connections = convertEdges(edges);
 
         std::stack<size_t> stack;
-        stack.push(root);
+        stack.push(0);
 
         while (!stack.empty())
         {
