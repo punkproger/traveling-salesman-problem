@@ -8,10 +8,10 @@ Matrix Common::createMatrix(const std::vector<Point>& points)
 {
 	Matrix result(points.size());
 
-	for (int i = 0; i < points.size(); ++i)
+	for (size_t i = 0; i < points.size(); ++i)
 	{
 		result[i] = Row(points.size());
-		for (int j = 0; j < points.size(); ++j)
+		for (size_t j = 0; j < points.size(); ++j)
 		{
 			result[i][j] = distance(points[i], points[j]);
 		}

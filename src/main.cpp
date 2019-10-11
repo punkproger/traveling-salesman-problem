@@ -22,6 +22,7 @@ int main(int argc, char** argv)
 
 	size_t optimization_iterations{TSP::Optimization::inf_limit};
 	std::unique_ptr<TSP::ITSPSolver> solver;
+	std::string output_filename;
 	for (int i = 2; i < argc; ++i)
 	{
 		if (argv[i] == std::string("-i") && i+1 < argc)
@@ -42,6 +43,10 @@ int main(int argc, char** argv)
 			{
 				std::cout << "Not known algorithm, use default(christofides)" << std::endl;
 			}
+		}
+		else if(argv[i] == std::string("-o") && i+1 < argc)
+		{
+			output_filename = argv[i+1];
 		}
 	}
 
@@ -68,7 +73,10 @@ int main(int argc, char** argv)
 	std::cout << std::endl;
 	std::cout << "cost: " << cost << std::endl;
 
-	TSP::ImageGenerator::saveImageFromPath("cities.bmp", path, coordinates);
+	if (!output_filename.empty())
+	{
+		TSP::ImageGenerator::saveImageFromPath(output_filename, path, coordinates);
+	}
 
 	return 0;
 }
