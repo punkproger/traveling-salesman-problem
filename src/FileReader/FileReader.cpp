@@ -2,23 +2,11 @@
 
 #include <fstream>
 #include <sstream> 
-#include <cmath> 
 #include <exception>
 
 using namespace TSP;
 
 namespace {
-
-	struct Point
-	{
-		double x;
-		double y;
-	};
-
-	double distance(const Point& lhs, const Point& rhs)
-	{
-		return sqrt(pow(lhs.x - rhs.x , 2) + pow(lhs.y - rhs.y, 2));
-	}
 
 	std::vector<double> extractNumbers(const std::string& str)
 	{
@@ -38,25 +26,9 @@ namespace {
 
 		return numbers;
 	}
-
-	Matrix createMatrix(const std::vector<Point>& points)
-	{
-		Matrix result(points.size());
-
-		for (int i = 0; i < points.size(); ++i)
-		{
-			result[i] = Row(points.size());
-			for (int j = 0; j < points.size(); ++j)
-			{
-				result[i][j] = distance(points[i], points[j]);
-			}
-		}
-
-		return result;
-	}
 }
 
-Matrix FileReader::readPlateFile(const std::string& filename)
+std::vector<Point> FileReader::readPlateFile(const std::string& filename)
 {
 	std::ifstream file(filename);
 	if(file.fail()){
@@ -84,5 +56,5 @@ Matrix FileReader::readPlateFile(const std::string& filename)
 		points.push_back(Point{numbers[0], numbers[1]});
 	}
 	
-	return createMatrix(points);	
+	return points;	
 }

@@ -117,7 +117,7 @@ namespace {
             size_t i = 0;
             size_t vertex = stack.top();
 
-            for (i; i < vertices_connections[vertex].size(); ++i)
+            for (; i < vertices_connections[vertex].size(); ++i)
             {
                 if (vertices_connections[vertex][i] != 0)
                 {
