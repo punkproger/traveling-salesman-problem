@@ -26,7 +26,7 @@ void ImageGenerator::saveImageFromPath(const std::string& filename,
 		min_x = std::min(point.x, min_x);
 		min_y = std::min(point.y, min_y);
 		max_x = std::max(point.x, max_x);
-		max_y = std::max(point.x, max_y);
+		max_y = std::max(point.y, max_y);
 	};
 	std::for_each(points.begin(), points.end(), set_min_max_coordinates);
 
