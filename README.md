@@ -20,3 +20,5 @@ make
 | -i            | Optimization iterations count | unsigned int |
 | -a            | algorithm |   {brute_force, christofides}, default: christofides |
 | -o            | output image name      |    <name.bmp> |
+
+First argument is always path to file with coordinates of city
