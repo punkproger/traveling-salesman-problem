@@ -7,7 +7,7 @@
 namespace TSP {
 	namespace FileReader {
 		
-		Matrix readPlateFile(const std::string& filename);
+		std::vector<Point> readPlateFile(const std::string& filename);
 	
 	}
 }
