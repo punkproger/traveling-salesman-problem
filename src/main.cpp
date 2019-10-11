@@ -27,7 +27,10 @@ int main(int argc, char** argv)
 	{
 		if (argv[i] == std::string("-i") && i+1 < argc)
 		{
-			optimization_iterations = std::stoi(argv[i+1]);
+			if (argv[i] != std::string("inf"))
+			{
+				optimization_iterations = std::stoi(argv[i+1]);
+			}
 		}
 		else if(argv[i] == std::string("-a") && i+1 < argc)
 		{
