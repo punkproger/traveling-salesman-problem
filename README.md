@@ -22,3 +22,12 @@ make
 | -o            | output image name      |    <name.bmp> |
 
 First argument is always path to file with coordinates of city
+
+### test/tsp_example_0.txt:
+![Image of test/tsp_example_0.txt](https://github.com/punkproger/traveling-salesman-problem/blob/commivoyager_problem_issue_implementing/images/cities_0.bmp)
+
+### test/tsp_example_1.txt:
+![Image of test/tsp_example_1.txt](https://github.com/punkproger/traveling-salesman-problem/blob/commivoyager_problem_issue_implementing/images/cities_1.bmp)
+
+### test/tsp_example_2.txt:
+![Image of test/tsp_example_1.txt](https://github.com/punkproger/traveling-salesman-problem/blob/commivoyager_problem_issue_implementing/images/cities_2.bmp)
