@@ -17,7 +17,7 @@ make
 
 | Flag          | Meaning       | Values|
 | ------------- |:-------------:| -----:|
-| -i            | Optimization iterations count | unsigned int |
+| -i            | Optimization iterations count | unsigned int, default: while can optimize |
 | -a            | algorithm |   {brute_force, christofides}, default: christofides |
 | -o            | output image name      |    <name.bmp> |
 
