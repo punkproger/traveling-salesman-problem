@@ -9,15 +9,15 @@ using namespace TSP;
 constexpr size_t size_x{800};
 constexpr size_t size_y{800};
 
-constexpr size_t offset_x{size_x/4};
-constexpr size_t offset_y{size_y/4};
+constexpr double scaler{1.5f};
 
 constexpr size_t circle_radius{4};
+
 
 namespace {
 	double transformCoordinate(double coordinate, double scale, double offset)
 	{
-		return (coordinate*scale)+offset;
+		return (coordinate*scale)+offset - (size_x/2)/scaler;
 	}
 
 	void printTrip(cartesian_canvas& canvas,
@@ -72,15 +72,15 @@ void ImageGenerator::saveImageFromPath(const std::string& filename,
 	};
 	std::for_each(points.begin(), points.end(), set_min_max_coordinates);
 
-	double scale_x = (size_x/((max_x-min_x))/1.8f);
-	double scale_y = (size_y/((max_y-min_y))/1.8f);
+	double scale_x = (size_x/(max_x-min_x))/scaler;
+	double scale_y = (size_y/(max_y-min_y))/scaler;
 
-	auto custom_path = path;
-	custom_path.push_back(path.front());
+	double offset_x = min_x*scale_x;
+	double offset_y = min_y*scale_y;
 
 	cartesian_canvas canvas(size_x, size_y);
 
-	printTrip(canvas, custom_path, points, scale_x, scale_y, offset_x, offset_y);
+	printTrip(canvas, path, points, scale_x, scale_y, offset_x, offset_y);
 	printCities(canvas, points, scale_x, scale_y, offset_x, offset_y);
 
 	canvas.image().save_image(filename);

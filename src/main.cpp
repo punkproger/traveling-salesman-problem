@@ -9,7 +9,7 @@
 #include <iomanip>
 #include <memory>
 
-
+// TODO: Refactor code in main(), add class handler of arguments of main()
 int main(int argc, char** argv)
 {
 	if (argc == 1)
@@ -63,6 +63,7 @@ int main(int argc, char** argv)
 	size_t cost{0};
 	std::vector<size_t> path = solver->solve(matrix, 4);
 	path = TSP::Optimization::twoOpt(path, matrix, optimization_iterations);
+	path.push_back(path.front());
 
 	for (size_t i = 0; i < path.size(); ++i)
 	{
